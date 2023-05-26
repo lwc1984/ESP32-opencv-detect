@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESP32 Camera Stream</title>
+    <script>
+        function updateImage() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/camera_frame', true);
+            xhr.responseType = 'blob';
+            xhr.onload = function(e) {
+                if (this.status == 200) {
+                    var img = document.getElementById('camera_stream');
+                    img.src = window.URL.createObjectURL(this.response);
+                    setTimeout(updateImage, 50);
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</head>
+<body onload="updateImage();">
+    <img id="camera_stream" width="320" height="240" alt="Camera stream" />
+</body>
+</html>
